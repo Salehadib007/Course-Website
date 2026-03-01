@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 /* ─── FONTS ──────────────────────────────────────────────────────────────── */
 const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap');`;
@@ -131,16 +130,11 @@ function Stars({ count = 5 }) {
 }
 
 /* ─── CARD ───────────────────────────────────────────────────────────────── */
-function TestimonialCard({ t, index, isActive, direction = 1 }) {
+function TestimonialCard({ t, index }) {
   const platformColor = PLATFORM_COLORS[t.platform] || "#00f0ff";
 
   return (
-    <motion.div
-      custom={direction}
-      initial={{ opacity: 0, x: direction * 80 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: direction * -80 }}
-      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+    <div
       style={{
         position: "relative",
         background:
@@ -157,9 +151,7 @@ function TestimonialCard({ t, index, isActive, direction = 1 }) {
         transition:
           "box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease",
         cursor: "default",
-        boxShadow: isActive
-          ? "0 0 0 1px rgba(0,240,255,0.3), 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0,240,255,0.08)"
-          : "0 8px 40px rgba(0,0,0,0.5)",
+        boxShadow: "0 8px 40px rgba(0,0,0,0.5)",
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = "translateY(-4px)";
@@ -173,7 +165,7 @@ function TestimonialCard({ t, index, isActive, direction = 1 }) {
         e.currentTarget.style.borderColor = "rgba(0,240,255,0.12)";
       }}
     >
-      {/* Top-left glow stripe */}
+      {/* Top glow stripe */}
       <div
         style={{
           position: "absolute",
@@ -228,14 +220,8 @@ function TestimonialCard({ t, index, isActive, direction = 1 }) {
         }}
       >
         <div
-          style={{
-            position: "relative",
-            width: 52,
-            height: 52,
-            flexShrink: 0,
-          }}
+          style={{ position: "relative", width: 52, height: 52, flexShrink: 0 }}
         >
-          {/* Ring */}
           <div
             style={{
               position: "absolute",
@@ -260,7 +246,6 @@ function TestimonialCard({ t, index, isActive, direction = 1 }) {
               e.target.nextSibling.style.display = "flex";
             }}
           />
-          {/* Fallback initials */}
           <div
             style={{
               display: "none",
@@ -311,7 +296,6 @@ function TestimonialCard({ t, index, isActive, direction = 1 }) {
           </div>
         </div>
 
-        {/* Platform badge */}
         <div
           style={{
             display: "flex",
@@ -329,9 +313,6 @@ function TestimonialCard({ t, index, isActive, direction = 1 }) {
           }}
         >
           {PLATFORM_ICONS[t.platform]}
-          <span style={{ display: "none" }} className="sm-show">
-            {t.platform}
-          </span>
         </div>
       </div>
 
@@ -362,16 +343,17 @@ function TestimonialCard({ t, index, isActive, direction = 1 }) {
           {t.text}
         </p>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 /* ─── MAIN COMPONENT ─────────────────────────────────────────────────────── */
 export default function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState(1); // 1 = forward (right→left), -1 = backward (left→right)
   const [cols, setCols] = useState(3);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const timerRef = useRef(null);
+  const trackRef = useRef(null);
 
   // Responsive columns
   useEffect(() => {
@@ -384,11 +366,59 @@ export default function Testimonials() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  // Auto-advance
+  const goTo = useCallback(
+    (newIndex, dir) => {
+      if (isTransitioning) return;
+      setIsTransitioning(true);
+
+      const track = trackRef.current;
+      if (!track) return;
+
+      // Slide out: move track in the exit direction
+      const outX = dir === 1 ? "-100%" : "100%";
+      track.style.transition = "none";
+      track.style.transform = "translateX(0%)";
+
+      // Force reflow
+      track.getBoundingClientRect();
+
+      track.style.transition =
+        "transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+      track.style.transform = `translateX(${outX})`;
+
+      setTimeout(() => {
+        // Instantly snap to incoming position (opposite side), no transition
+        track.style.transition = "none";
+        const inX = dir === 1 ? "100%" : "-100%";
+        track.style.transform = `translateX(${inX})`;
+
+        setActiveIndex(newIndex);
+
+        // Force reflow so the new cards paint at inX before sliding in
+        track.getBoundingClientRect();
+
+        // Slide in to center
+        track.style.transition =
+          "transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+        track.style.transform = "translateX(0%)";
+
+        setTimeout(() => {
+          setIsTransitioning(false);
+        }, 560);
+      }, 560);
+    },
+    [isTransitioning],
+  );
+
   const advance = useCallback(() => {
-    setDirection(1);
-    setActiveIndex((i) => (i + 1) % testimonials.length);
-  }, []);
+    const next = (activeIndex + 1) % testimonials.length;
+    goTo(next, 1);
+  }, [activeIndex, goTo]);
+
+  const goBack = useCallback(() => {
+    const prev = (activeIndex - 1 + testimonials.length) % testimonials.length;
+    goTo(prev, -1);
+  }, [activeIndex, goTo]);
 
   useEffect(() => {
     timerRef.current = setInterval(advance, 4500);
@@ -403,18 +433,19 @@ export default function Testimonials() {
   // Visible slice
   const visible = [];
   for (let i = 0; i < cols; i++) {
-    visible.push(testimonials[(activeIndex + i) % testimonials.length]);
+    visible.push({
+      t: testimonials[(activeIndex + i) % testimonials.length],
+      index: (activeIndex + i) % testimonials.length,
+    });
   }
 
   return (
     <>
       <style>{FONT_IMPORT}</style>
       <style>{`
-        @keyframes scanH { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
         @keyframes gridPulse { 0%,100%{opacity:.025} 50%{opacity:.055} }
         @keyframes floatA { 0%,100%{transform:translateY(0) translateX(0)} 33%{transform:translateY(-18px) translateX(8px)} 66%{transform:translateY(8px) translateX(-12px)} }
         @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-        @keyframes progressScan { 0%{width:0%} 100%{width:100%} }
       `}</style>
 
       <section
@@ -480,7 +511,6 @@ export default function Testimonials() {
         >
           {/* Header */}
           <div style={{ textAlign: "center", marginBottom: 64 }}>
-            {/* Eyebrow */}
             <div
               style={{
                 display: "inline-flex",
@@ -557,26 +587,22 @@ export default function Testimonials() {
             </p>
           </div>
 
-          {/* Cards grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: `repeat(${cols}, 1fr)`,
-              gap: 20,
-              alignItems: "stretch",
-            }}
-          >
-            <AnimatePresence mode="popLayout" custom={direction}>
-              {visible.map((t, i) => (
-                <TestimonialCard
-                  key={`${activeIndex}-${i}`}
-                  t={t}
-                  index={(activeIndex + i) % testimonials.length}
-                  isActive={i === 0}
-                  direction={direction}
-                />
+          {/* Slider viewport */}
+          <div style={{ overflow: "hidden", borderRadius: 4 }}>
+            <div
+              ref={trackRef}
+              style={{
+                display: "grid",
+                gridTemplateColumns: `repeat(${cols}, 1fr)`,
+                gap: 20,
+                alignItems: "stretch",
+                willChange: "transform",
+              }}
+            >
+              {visible.map(({ t, index }) => (
+                <TestimonialCard key={index} t={t} index={index} />
               ))}
-            </AnimatePresence>
+            </div>
           </div>
 
           {/* Controls */}
@@ -592,10 +618,7 @@ export default function Testimonials() {
             {/* Prev */}
             <button
               onClick={() => {
-                setDirection(-1);
-                setActiveIndex(
-                  (i) => (i - 1 + testimonials.length) % testimonials.length,
-                );
+                goBack();
                 resetTimer();
               }}
               style={{
@@ -641,8 +664,8 @@ export default function Testimonials() {
                   <button
                     key={i}
                     onClick={() => {
-                      setDirection(i > activeIndex ? 1 : -1);
-                      setActiveIndex(i);
+                      const dir = i > activeIndex ? 1 : -1;
+                      goTo(i, dir);
                       resetTimer();
                     }}
                     style={{
