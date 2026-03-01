@@ -10,6 +10,15 @@ const FONTS = `
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap');
 `;
 
+const ZERO_TIME = {
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  seconds: 0,
+  ms: 0,
+  done: false,
+};
+
 function useCountdown(target) {
   const calc = () => {
     const diff = Math.max(0, target - Date.now());
@@ -22,8 +31,10 @@ function useCountdown(target) {
       done: diff === 0,
     };
   };
-  const [time, setTime] = useState(calc);
+  // Start with zeros — server & client render the same HTML, no hydration mismatch
+  const [time, setTime] = useState(ZERO_TIME);
   useEffect(() => {
+    setTime(calc()); // snap to real value immediately on mount
     const id = setInterval(() => setTime(calc()), 50);
     return () => clearInterval(id);
   }, [target]);
@@ -149,9 +160,9 @@ function ProgressRing({ progress, accent }) {
 
 export default function CountdownTimer() {
   const { days, hours, minutes, seconds, ms, done } = useCountdown(TARGET_DATE);
-  const totalSecs = Math.max(0, (TARGET_DATE - Date.now()) / 1000);
   const totalDuration = (TARGET_DATE - new Date("2026-01-01")) / 1000;
-  const progress = 1 - totalSecs / totalDuration;
+  // Derive progress from days (already SSR-safe since it comes from useCountdown)
+  const progress = 1 - (days * 86400) / totalDuration;
 
   const accent = done ? "#ff4466" : "#00f5d4";
   const accentB = done ? "#ff8844" : "#7b5ea7";
@@ -269,11 +280,13 @@ export default function CountdownTimer() {
                 month: "short",
                 day: "numeric",
                 year: "numeric",
+                timeZone: "UTC",
               })}{" "}
               AT{" "}
               {TARGET_DATE.toLocaleTimeString("en-US", {
                 hour: "2-digit",
                 minute: "2-digit",
+                timeZone: "UTC",
               })}
             </span>
           </div>
