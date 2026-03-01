@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Move outside component — never recreated
 const FALLBACK = {
   id: "course",
   name: "Full-Stack Web Development Course",
@@ -34,7 +33,6 @@ const PAYMENT_NUMBERS = {
   },
 };
 
-// Animations defined outside — not recreated
 const slideIn = {
   initial: { opacity: 0, x: -16 },
   animate: { opacity: 1, x: 0 },
@@ -47,10 +45,9 @@ const scaleIn = {
   transition: { duration: 0.4 },
 };
 
-export default function PaymentPage() {
+function PaymentPageInner() {
   const searchParams = useSearchParams();
 
-  // Memoize pkg so it's only recomputed when searchParams changes
   const pkg = useMemo(
     () => ({
       id: searchParams.get("course") || FALLBACK.id,
@@ -105,22 +102,18 @@ export default function PaymentPage() {
     async (e) => {
       e.preventDefault();
       if (!validate()) return;
-
       try {
         const res = await fetch("/api/enrollment", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ package: pkg.id, method, ...formData }),
         });
-
         const data = await res.json();
-
         if (!res.ok) {
-          alert(data.error || "Something went wrong. Please try again.");
+          alert(data.error || "Something went wrong.");
           return;
         }
-
-        setStep(3); // show success screen
+        setStep(3);
       } catch (err) {
         console.error(err);
         alert("Network error. Please try again.");
@@ -133,13 +126,6 @@ export default function PaymentPage() {
 
   return (
     <>
-      {/* 
-        Move font to _document.js or layout.js for true performance:
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-        
-        For now, keeping it here but as a <link> not @import (much faster):
-      */}
       <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
@@ -152,9 +138,9 @@ export default function PaymentPage() {
 
       <div className="pp-root">
         {/* Header */}
-        <div className="pp-header pp-grid-bg">
+        <div className="pp-header pp-grid-bg ">
           <div className="pp-container">
-            <div className="pp-eyebrow mono">// ENROLLMENT</div>
+            <div className="pp-eyebrow mono pt-15">// ENROLLMENT</div>
             <h1 className="pp-title">Complete Your Enrollment</h1>
             <p className="pp-subtitle">
               Secure your spot with a manual payment via bKash or Nagad.
@@ -166,9 +152,9 @@ export default function PaymentPage() {
         <div className="pp-container pp-steps-wrap">
           <div className="pp-steps">
             {["Package", "Payment", "Confirm"].map((label, i) => {
-              const s = i + 1;
-              const done = step > s;
-              const isActive = step === s;
+              const s = i + 1,
+                done = step > s,
+                isActive = step === s;
               return (
                 <div
                   key={i}
@@ -197,7 +183,7 @@ export default function PaymentPage() {
 
         {/* Main grid */}
         <div className="pp-container pp-grid">
-          {/* LEFT */}
+          {/* LEFT — main content */}
           <div>
             <AnimatePresence mode="wait">
               {step === 1 && (
@@ -205,7 +191,7 @@ export default function PaymentPage() {
                   <div className="pp-card">
                     <div className="pp-card-header">
                       <div className="pp-card-header-row">
-                        <div>
+                        <div className="pp-pkg-info">
                           <span className="pp-badge">{pkg.badge}</span>
                           <h2 className="pp-pkg-name">{pkg.name}</h2>
                           <p className="pp-pkg-duration">
@@ -437,15 +423,35 @@ export default function PaymentPage() {
             </div>
           </div>
         </div>
-
-        {/* All CSS in one static block — not re-injected on render */}
         <style>{CSS}</style>
       </div>
     </>
   );
 }
 
-// Static string constant — defined once, never changes, never causes re-renders
+function PaymentPageSkeleton() {
+  return (
+    <div className="pp-root pp-skeleton">
+      <div className="pp-header pp-grid-bg">
+        <div className="pp-container">
+          <div className="pp-skel pp-skel--sm" />
+          <div className="pp-skel pp-skel--lg" style={{ marginTop: 10 }} />
+          <div className="pp-skel pp-skel--md" style={{ marginTop: 8 }} />
+        </div>
+      </div>
+      <style>{CSS}</style>
+    </div>
+  );
+}
+
+export default function PaymentPage() {
+  return (
+    <Suspense fallback={<PaymentPageSkeleton />}>
+      <PaymentPageInner />
+    </Suspense>
+  );
+}
+
 const CSS = `
   .pp-root *, .pp-root *::before, .pp-root *::after { box-sizing: border-box; }
   .pp-root {
@@ -457,8 +463,8 @@ const CSS = `
   }
   .mono { font-family: 'JetBrains Mono', monospace; }
 
-  /* Header */
-  .pp-header { padding: 40px 24px 32px; border-bottom: 1px solid rgba(0,240,255,0.08); }
+  /* ── Header ── */
+  .pp-header { padding: 28px 20px 24px; border-bottom: 1px solid rgba(0,240,255,0.08); }
   .pp-grid-bg {
     background-image:
       linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px),
@@ -466,64 +472,96 @@ const CSS = `
     background-size: 40px 40px;
   }
   .pp-eyebrow { font-size: 11px; color: #00f0ff; opacity: 0.6; letter-spacing: 0.2em; margin-bottom: 8px; }
-  .pp-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; margin: 0; }
-  .pp-subtitle { color: rgba(255,255,255,0.45); margin-top: 6px; font-size: 0.9rem; }
+  .pp-title   { font-size: clamp(1.4rem, 4vw, 2.4rem); font-weight: 800; margin: 0; line-height: 1.2; }
+  .pp-subtitle { color: rgba(255,255,255,0.45); margin-top: 6px; font-size: clamp(0.82rem, 2vw, 0.9rem); }
 
-  /* Layout */
-  .pp-container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
-  .pp-steps-wrap { padding-top: 28px; }
-  .pp-grid { padding-top: 28px; display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
+  /* ── Container & Grid ── */
+  .pp-container { max-width: 900px; margin: 0 auto; padding: 0 16px; }
+  .pp-steps-wrap { padding-top: 24px; }
 
-  /* Steps */
-  .pp-steps { display: flex; align-items: center; max-width: 340px; }
+  /* Desktop: sidebar on right */
+  .pp-grid {
+    padding-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* Mobile: stack sidebar below main content */
+  @media (max-width: 700px) {
+    .pp-container { padding: 0 14px; }
+    .pp-header { padding: 20px 14px 18px; }
+    .pp-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    /* Move sidebar below the main card on mobile */
+    .pp-sidebar { order: 2; position: static; }
+  }
+
+  /* ── Steps ── */
+  .pp-steps { display: flex; align-items: center; max-width: 320px; }
   .pp-step-item { display: flex; align-items: center; }
   .pp-step-item--flex { flex: 1; }
   .pp-step-circle-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .pp-step-circle {
-    width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center;
-    justify-content: center; font-size: 0.75rem; font-weight: 700;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700;
     background: rgba(255,255,255,0.06); border: 2px solid rgba(255,255,255,0.12);
     color: rgba(255,255,255,0.4); transition: all 0.3s;
   }
   .pp-step-circle.active { background: rgba(0,240,255,0.15); border-color: #00f0ff; color: #00f0ff; }
-  .pp-step-circle.done { background: #00f0ff; border-color: #00f0ff; color: #050810; }
-  .pp-step-label { font-size: 0.7rem; color: rgba(255,255,255,0.35); font-weight: 400; white-space: nowrap; }
+  .pp-step-circle.done   { background: #00f0ff; border-color: #00f0ff; color: #050810; }
+  .pp-step-label { font-size: 0.68rem; color: rgba(255,255,255,0.35); font-weight: 400; white-space: nowrap; }
   .pp-step-label.active { color: #00f0ff; font-weight: 600; }
-  .pp-step-line { flex: 1; height: 1px; background: rgba(255,255,255,0.1); margin: 0 8px; margin-bottom: 18px; transition: background 0.4s; }
+  .pp-step-line { flex: 1; height: 1px; background: rgba(255,255,255,0.1); margin: 0 6px; margin-bottom: 18px; transition: background 0.4s; }
   .pp-step-line.done { background: #00f0ff; }
 
-  /* Cards */
+  /* ── Cards ── */
   .pp-card {
     background: #0a0f1e; border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 18px; overflow: hidden;
+    border-radius: 16px; overflow: hidden;
   }
-  .pp-card--pad { padding: 24px; overflow: visible; }
-  .pp-card--no-overflow { overflow: hidden; border-radius: 16px; }
-  .pp-card--success { padding: 52px 24px; text-align: center; border-color: rgba(0,240,255,0.15); }
+  .pp-card--pad { padding: 20px; overflow: visible; }
+  .pp-card--no-overflow { overflow: hidden; border-radius: 14px; }
+  .pp-card--success { padding: 44px 20px; text-align: center; border-color: rgba(0,240,255,0.15); }
 
-  /* Card header */
+  /* ── Card header ── */
   .pp-card-header {
-    padding: 24px 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.06);
     background: linear-gradient(135deg, rgba(0,240,255,0.06) 0%, transparent 60%);
   }
-  .pp-card-header-row { display: flex; justify-content: space-between; align-items: flex-start; }
-  .pp-card-body { padding: 24px; }
+  .pp-card-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .pp-pkg-info { flex: 1; min-width: 0; }
+  .pp-card-body { padding: 20px; }
 
-  /* Package info */
+  /* ── Package info ── */
   .pp-badge {
     background: rgba(0,240,255,0.12); color: #00f0ff; border: 1px solid rgba(0,240,255,0.25);
     padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 700;
+    display: inline-block;
   }
-  .pp-pkg-name { margin-top: 10px; font-size: 1.5rem; font-weight: 800; margin-bottom: 0; }
-  .pp-pkg-duration { color: rgba(255,255,255,0.4); font-size: 0.85rem; margin-top: 4px; }
-  .pp-price-block { text-align: right; }
-  .pp-price { font-size: 2rem; font-weight: 800; color: #00f0ff; line-height: 1; }
-  .pp-price-sub { color: rgba(255,255,255,0.35); font-size: 0.78rem; margin-top: 4px; }
+  .pp-pkg-name {
+    margin-top: 10px; font-size: clamp(1.1rem, 3vw, 1.5rem);
+    font-weight: 800; margin-bottom: 0; line-height: 1.3;
+  }
+  .pp-pkg-duration { color: rgba(255,255,255,0.4); font-size: 0.83rem; margin-top: 4px; }
+  .pp-price-block { text-align: right; flex-shrink: 0; }
+  .pp-price { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; color: #00f0ff; line-height: 1; }
+  .pp-price-sub { color: rgba(255,255,255,0.35); font-size: 0.75rem; margin-top: 4px; }
 
-  /* Features */
+  /* ── Features ── */
   .pp-section-label {
-    color: rgba(255,255,255,0.4); font-size: 0.75rem; letter-spacing: 0.1em;
-    text-transform: uppercase; margin-bottom: 14px; margin-top: 0;
+    color: rgba(255,255,255,0.4); font-size: 0.72rem; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 12px; margin-top: 0;
   }
   .pp-features { display: flex; flex-direction: column; gap: 10px; }
   .pp-check-item { display: flex; gap: 10px; align-items: flex-start; color: rgba(255,255,255,0.75); font-size: 0.88rem; line-height: 1.5; }
@@ -534,48 +572,49 @@ const CSS = `
   }
   .pp-check-icon span { color: #00f0ff; font-size: 9px; }
 
-  /* Buttons */
+  /* ── Buttons ── */
   .pp-btn-primary {
-    padding: 14px; border-radius: 12px; border: none; cursor: pointer;
-    font-family: 'Sora', sans-serif; font-weight: 700; font-size: 1rem;
+    padding: 13px 16px; border-radius: 12px; border: none; cursor: pointer;
+    font-family: 'Sora', sans-serif; font-weight: 700; font-size: 0.95rem;
     background: linear-gradient(135deg, #00f0ff, #0055ff); color: #050810;
   }
-  .pp-btn-full { width: 100%; margin-top: 24px; }
-  .pp-btn-flex { flex: 1; }
+  .pp-btn-full { width: 100%; margin-top: 20px; }
+  .pp-btn-flex { flex: 1; min-width: 0; }
   .pp-btn-back {
-    padding: 13px 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
     background: transparent; color: rgba(255,255,255,0.45); cursor: pointer;
-    font-family: 'Sora', sans-serif;
+    font-family: 'Sora', sans-serif; white-space: nowrap;
   }
 
-  /* Payment method */
-  .pp-methods { display: flex; gap: 12px; margin-bottom: 20px; }
+  /* ── Payment method ── */
+  .pp-methods { display: flex; gap: 10px; margin-bottom: 18px; }
   .pp-method-btn {
-    flex: 1; padding: 14px 10px; border-radius: 12px; border: 2px solid transparent;
+    flex: 1; padding: 12px 8px; border-radius: 12px; border: 2px solid transparent;
     cursor: pointer; font-family: 'Sora', sans-serif; font-weight: 700;
-    font-size: 0.95rem; transition: all 0.2s ease;
+    font-size: 0.92rem; transition: all 0.2s ease;
   }
   .pp-payment-box {
-    border: 1px solid; border-radius: 12px; padding: 16px 18px;
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+    border: 1px solid; border-radius: 12px; padding: 14px 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
   }
   .pp-payment-box-label { color: rgba(255,255,255,0.4); font-size: 0.72rem; margin-bottom: 4px; }
-  .pp-payment-number { font-size: 1.3rem; font-weight: 700; }
+  .pp-payment-number { font-size: clamp(1rem, 3vw, 1.3rem); font-weight: 700; }
   .pp-payment-box-sub { color: rgba(255,255,255,0.3); font-size: 0.72rem; margin-top: 2px; }
   .pp-copy-btn {
     background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
     color: #fff; border-radius: 8px; padding: 8px 14px; cursor: pointer;
     font-size: 0.8rem; font-family: 'Sora', sans-serif; transition: background 0.2s;
+    white-space: nowrap; flex-shrink: 0;
   }
   .pp-copy-btn:hover { background: rgba(255,255,255,0.12); }
 
-  /* Form */
-  .pp-form { display: flex; flex-direction: column; gap: 16px; }
-  .pp-field {}
-  .pp-label { display: block; font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
+  /* ── Form ── */
+  .pp-form { display: flex; flex-direction: column; gap: 14px; }
+  .pp-label { display: block; font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-bottom: 5px; }
   .pp-input {
     width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
-    color: #fff; border-radius: 10px; padding: 13px 16px; font-size: 0.95rem;
+    color: #fff; border-radius: 10px; padding: 12px 14px; font-size: 0.92rem;
     font-family: 'Sora', sans-serif; transition: border-color 0.2s, box-shadow 0.2s; outline: none;
   }
   .pp-input::placeholder { color: rgba(255,255,255,0.25); }
@@ -584,44 +623,56 @@ const CSS = `
   .pp-error { color: #ff6060; font-size: 0.72rem; margin-top: 4px; display: block; }
   .pp-form-actions { display: flex; gap: 10px; margin-top: 4px; }
 
-  /* Success */
+  /* ── Success ── */
   .pp-success-icon {
-    width: 68px; height: 68px; border-radius: 50%; background: rgba(0,240,255,0.1);
+    width: 64px; height: 64px; border-radius: 50%; background: rgba(0,240,255,0.1);
     border: 2px solid #00f0ff; display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 20px; font-size: 1.8rem;
+    margin: 0 auto 18px; font-size: 1.6rem;
     animation: scaleIn 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
   }
-  .pp-success-title { font-size: 1.7rem; font-weight: 800; margin-bottom: 10px; color: #00f0ff; }
-  .pp-success-body { color: rgba(255,255,255,0.45); line-height: 1.8; max-width: 380px; margin: 0 auto 24px; font-size: 0.92rem; }
+  .pp-success-title { font-size: clamp(1.3rem, 4vw, 1.7rem); font-weight: 800; margin-bottom: 10px; color: #00f0ff; }
+  .pp-success-body { color: rgba(255,255,255,0.45); line-height: 1.8; max-width: 360px; margin: 0 auto 22px; font-size: 0.9rem; }
   .pp-success-body strong { color: #fff; }
   .pp-success-email-box {
     background: rgba(0,240,255,0.05); border: 1px solid rgba(0,240,255,0.15);
-    border-radius: 10px; padding: 14px 18px; display: inline-block;
+    border-radius: 10px; padding: 12px 16px; display: inline-block; max-width: 100%;
   }
   .pp-success-email-label { color: rgba(255,255,255,0.4); font-size: 0.72rem; margin-bottom: 4px; }
-  .pp-success-email { color: #00f0ff; font-weight: 600; }
+  .pp-success-email { color: #00f0ff; font-weight: 600; word-break: break-all; }
 
-  /* Sidebar */
-  .pp-sidebar { position: sticky; top: 24px; }
-  .pp-summary-header { padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-  .pp-summary-name-row { display: flex; justify-content: space-between; align-items: center; }
-  .pp-summary-name { font-weight: 700; font-size: 0.95rem; }
-  .pp-summary-duration { color: rgba(255,255,255,0.35); font-size: 0.78rem; margin-top: 3px; }
-  .pp-summary-features { padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-  .pp-summary-feature { display: flex; gap: 8px; padding: 4px 0; color: rgba(255,255,255,0.5); font-size: 0.8rem; }
-  .pp-dot { color: #00f0ff; font-size: 9px; margin-top: 3px; }
-  .pp-summary-totals { padding: 14px 20px; }
-  .pp-summary-row { display: flex; justify-content: space-between; color: rgba(255,255,255,0.35); font-size: 0.8rem; margin-bottom: 6px; }
+  /* ── Sidebar ── */
+  .pp-sidebar { position: sticky; top: 20px; }
+  .pp-summary-header { padding: 16px 18px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .pp-summary-name-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; flex-wrap: wrap; }
+  .pp-summary-name { font-weight: 700; font-size: 0.9rem; flex: 1; min-width: 0; line-height: 1.4; }
+  .pp-summary-duration { color: rgba(255,255,255,0.35); font-size: 0.75rem; margin-top: 3px; }
+  .pp-summary-features { padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .pp-summary-feature { display: flex; gap: 8px; padding: 3px 0; color: rgba(255,255,255,0.5); font-size: 0.78rem; }
+  .pp-dot { color: #00f0ff; font-size: 9px; margin-top: 3px; flex-shrink: 0; }
+  .pp-summary-totals { padding: 12px 18px; }
+  .pp-summary-row { display: flex; justify-content: space-between; color: rgba(255,255,255,0.35); font-size: 0.78rem; margin-bottom: 6px; }
   .pp-summary-total {
     display: flex; justify-content: space-between; align-items: center;
-    border-top: 1px solid rgba(255,255,255,0.07); padding-top: 12px; font-weight: 700;
+    border-top: 1px solid rgba(255,255,255,0.07); padding-top: 10px; font-weight: 700;
   }
-  .pp-total-amount { font-size: 1.3rem; font-weight: 800; color: #00f0ff; }
+  .pp-total-amount { font-size: 1.2rem; font-weight: 800; color: #00f0ff; }
 
-  /* Trust */
-  .pp-trust-items { margin-top: 14px; display: flex; flex-direction: column; gap: 7px; }
-  .pp-trust-item { display: flex; gap: 8px; align-items: center; color: rgba(255,255,255,0.3); font-size: 0.75rem; }
-  .pp-dot-cyan { color: #00f0ff; font-size: 9px; }
+  /* ── Trust ── */
+  .pp-trust-items { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+  .pp-trust-item { display: flex; gap: 8px; align-items: center; color: rgba(255,255,255,0.3); font-size: 0.73rem; }
+  .pp-dot-cyan { color: #00f0ff; font-size: 9px; flex-shrink: 0; }
 
-  @keyframes scaleIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  /* ── Skeleton ── */
+  .pp-skel {
+    border-radius: 6px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+  }
+  .pp-skel--sm { height: 12px; width: 120px; }
+  .pp-skel--md { height: 14px; width: 220px; }
+  .pp-skel--lg { height: 24px; width: min(280px, 80%); }
+
+  @keyframes scaleIn  { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @keyframes shimmer  { to { background-position: -200% 0; } }
 `;

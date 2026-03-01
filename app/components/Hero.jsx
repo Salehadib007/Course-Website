@@ -36,7 +36,7 @@ export default function Hero() {
   });
 
   return (
-    <section className="relative bg-[#0a0a0a] overflow-hidden h-screen">
+    <section className="relative bg-[#0a0a0a] overflow-hidden h-[95vh]">
       {/* Floating shapes */}
       <motion.div
         className="absolute top-10 left-20 w-16 h-16 bg-[#00f0ff]/20 rounded-full"
