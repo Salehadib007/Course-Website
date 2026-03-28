@@ -66,7 +66,7 @@ export default function Hero() {
             custom={0}
             className="inline-block bg-[#001f2e] text-[#00f0ff] font-semibold text-xs sm:text-sm tracking-wider uppercase px-3 py-1.5 rounded-full mb-3"
           >
-            Tech Learning
+            ওয়েব ডেভেলপমেন্ট
           </motion.span>
 
           <motion.h1
@@ -74,9 +74,9 @@ export default function Hero() {
             initial="hidden"
             animate="visible"
             custom={1}
-            className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-[#00f0ff] tracking-wide"
+            className="text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight text-[#00f0ff] tracking-wide"
           >
-            Master Full-Stack <br /> Web Development
+            গোপালগঞ্জে সর্বোচ্চ মানের <br /> Web Development কোর্স
           </motion.h1>
 
           <motion.p
@@ -84,10 +84,20 @@ export default function Hero() {
             initial="hidden"
             animate="visible"
             custom={2}
-            className="mt-4 sm:mt-5 text-lg sm:text-xl text-[#a0f0ff] max-w-lg"
+            className="mt-4 sm:mt-5 text-sm sm:text-base text-[#a0f0ff] max-w-lg"
           >
-            Build scalable apps, leverage AI tools, and get mentored by experts.
-            Future-proof your skills for the AI-first era.
+            ডিজিটাল স্কিলের নামে বেসিক কম্পিউটারের কোর্স করতে করতে বিরক্ত? আমরা
+            তৈরি করেছি সকল বয়সের মানুষের জন্য ৩ মাস ও ৬ মাসের জিরো টু হিরো
+            কোর্স। কোর্স শেষেই ওয়েব জগতের এক্সপার্ট হয়ে উঠুন।
+          </motion.p>
+          <motion.p
+            variants={textVariant}
+            initial="hidden"
+            animate="visible"
+            custom={2}
+            className="mt-4 sm:mt-5 font-bold text-lg sm:text-xl text-[#a0f0ff] max-w-lg"
+          >
+            যোগাযোগঃ ০১৯৬২০৩৩৪০৫ / ০১৫৭২৯১২৭৮৯
           </motion.p>
 
           {/* Buttons */}
@@ -102,13 +112,13 @@ export default function Hero() {
               href="/pricing"
               className="bg-[#00f0ff] text-[#0a0a0a] font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 text-base"
             >
-              Enroll Now
+              এনরোল করুন
             </Link>
             <Link
               href="/course"
               className="border border-[#00f0ff] text-[#00f0ff] font-semibold px-6 py-3 rounded-lg hover:bg-[#00f0ff] hover:text-[#0a0a0a] hover:scale-105 transition-all duration-300 text-base"
             >
-              View Curriculum
+              কারিকুলাম দেখুন
             </Link>
           </motion.div>
 
@@ -121,22 +131,22 @@ export default function Hero() {
             className="mt-8 flex flex-wrap gap-8"
           >
             <div className="flex flex-col items-start">
-              <h3 className="text-2xl sm:text-3xl font-bold text-[#00f0ff]">
-                150+
+              <h3 className="text-xl sm:text-2xl font-bold text-[#00f0ff]">
+                ৩৭ +
               </h3>
-              <p className="text-[#66f0ff] text-sm">Students Enrolled</p>
+              <p className="text-[#66f0ff] text-sm">এনরোল করেছে</p>
             </div>
             <div className="flex flex-col items-start">
-              <h3 className="text-2xl sm:text-3xl font-bold text-[#00f0ff]">
-                3 Months
+              <h3 className="text-xl sm:text-2xl font-bold text-[#00f0ff]">
+                ৩ মাস
               </h3>
-              <p className="text-[#66f0ff] text-sm">Complete Training</p>
+              <p className="text-[#66f0ff] text-sm">সম্পূর্ণ ট্রেনিং</p>
             </div>
             <div className="flex flex-col items-start">
-              <h3 className="text-2xl sm:text-3xl font-bold text-[#00f0ff]">
-                10+
+              <h3 className="text-xl sm:text-2xl font-bold text-[#00f0ff]">
+                ১০ +
               </h3>
-              <p className="text-[#66f0ff] text-sm">Projects Built</p>
+              <p className="text-[#66f0ff] text-sm">জব প্রজেক্ট</p>
             </div>
           </motion.div>
         </div>

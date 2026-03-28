@@ -24,19 +24,20 @@ export default function CTA() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-5xl md:text-6xl font-extrabold text-white mb-6 leading-tight"
+          className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight"
         >
-          Launch Your Web Development Career Today
+          আজই আপনার ওয়েব ডেভেলপমেন্ট ক্যারিয়ার শুরু করুন
         </motion.h2>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-lg md:text-xl text-[#66f0ff]/80 mb-8"
+          className="text-base md:text-lg text-[#66f0ff]/80 mb-8"
         >
-          Join our full-stack web development course with AI-powered tools, real
-          projects, and live mentorship. Get job-ready in 3 months.
+          আমাদের ফুল-স্ট্যাক ওয়েব ডেভেলপমেন্ট কোর্সে যোগ দিন, যেখানে এআই-ভিত্তিক
+          টুল, বাস্তব প্রজেক্ট এবং লাইভ মেন্টরশিপ রয়েছে। মাত্র ৩ মাসে জব-রেডি
+          হয়ে উঠুন।
         </motion.p>
 
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -44,7 +45,7 @@ export default function CTA() {
             href="/pricing"
             className="inline-block px-10 py-4 text-lg md:text-xl font-bold text-white rounded-full bg-gradient-to-r from-[#00f0ff] via-[#4f00ff] to-[#ff4f9d] shadow-xl hover:shadow-[0_0_40px_#00f0ff]/50 transition-all duration-300"
           >
-            Enroll Now
+            এনরোল করুন
           </Link>
         </motion.div>
 
@@ -55,9 +56,9 @@ export default function CTA() {
           transition={{ delay: 1 }}
           className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-[#66f0ff]/80"
         >
-          <span>🔥 150+ Students Enrolled</span>
-          <span>⏱️ 3 Months Intensive Training</span>
-          <span>💻 Real Portfolio Projects</span>
+          <span>🔥 ৩৭+ এনরোল সম্পন্ন হয়েছে</span>
+          <span>⏱️ ৩ মাসের ইন্টেনসিভ ট্রেনিং</span>
+          <span>💻 ১০+ বাস্তব পোর্টফোলিও প্রজেক্ট</span>
         </motion.div>
       </div>
     </Section>

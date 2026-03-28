@@ -2,8 +2,8 @@
 import { useState, useEffect, useRef } from "react";
 
 // ── CONFIG ──────────────────────────────────────────────────────────────────
-const TARGET_DATE = new Date("2026-03-15T23:59:00"); // ← change this
-const EVENT_LABEL = "Course Starts In"; // ← change this
+const TARGET_DATE = new Date("2026-03-30T23:59:00"); // ← change this
+const EVENT_LABEL = "কোর্স শুরু হবে"; // ← change this
 // ────────────────────────────────────────────────────────────────────────────
 
 const FONTS = `
@@ -222,7 +222,7 @@ export default function CountdownTimer() {
               }}
             />
             <span style={{ ...styles.headerText, color: accent + "bb" }}>
-              COUNTDOWN ACTIVE
+              COUNTDOWN শুরু হয়ে গেছে
             </span>
             <div
               style={{
@@ -240,7 +240,7 @@ export default function CountdownTimer() {
               WebkitTextStroke: `1px ${accent}66`,
             }}
           >
-            {done ? "TIME'S UP" : EVENT_LABEL}
+            {done ? "সময় শেষ" : EVENT_LABEL}
           </h1>
 
           {/* Main digits */}

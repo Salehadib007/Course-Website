@@ -45,19 +45,20 @@ export default function Requirement() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, type: "spring", stiffness: 70 }}
-          className="text-5xl sm:text-6xl font-extrabold text-[#00f0ff] mb-6"
+          className="text-4xl sm:text-5xl font-extrabold text-[#00f0ff] mb-6"
         >
-          Own Laptop Needed
+          নিজের ল্যাপটপ প্রয়োজন
         </motion.h2>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
-          className="text-xl sm:text-2xl text-[#66f0ff]/80"
+          className="text-lg sm:text-xl text-[#66f0ff]/80"
         >
-          Students must have their own laptop to participate in live coding
-          sessions, run projects, and fully leverage AI-enhanced learning tools.
+          লাইভ কোডিং সেশন, প্রজেক্ট রান করা এবং এআই-ভিত্তিক লার্নিং টুল
+          সম্পূর্ণভাবে ব্যবহার করার জন্য শিক্ষার্থীদের নিজস্ব ল্যাপটপ থাকা
+          আবশ্যক।
         </motion.p>
       </div>
 

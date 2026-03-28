@@ -8,57 +8,63 @@ import { motion } from "framer-motion";
 const courses = [
   {
     id: "frontend",
-    name: "Frontend Web Development",
-    duration: "3 months",
-    price: 10000,
+    name: "ফ্রন্টএন্ড ওয়েব ডেভেলপমেন্ট",
+    duration: "৩ মাস",
+    price: "৮,৯৯৯",
     discount: null,
-    payment: ["Full Payment: 10,000 BDT", "Monthly: 3,500 BDT/month"],
+    payment: [
+      "Full Payment: ৮,৯৯৯ টাকা",
+      "Monthly: ২,৯৯৯ টাকা/মাস ৩ মাসের জন্য",
+    ],
     support: [
-      "1:1 mentoring & doubt support via chat/email",
-      "Weekly live Q&A sessions",
-      "Hands-on mini-projects & code walkthroughs",
-      "Responsive & modern UI design guidance",
-      "Access to templates & resources",
-      "Portfolio-ready projects",
-      "Community support",
+      "১:১ মেন্টরিং এবং চ্যাট/ইমেইল এর মাধ্যমে সন্দেহ সমাধান",
+      "সাপ্তাহিক লাইভ Q&A সেশন",
+      "হ্যান্ডস-অন মিনি-প্রজেক্ট এবং কোড ওয়াকথ্রু",
+      "রেসপন্সিভ ও আধুনিক UI ডিজাইন গাইডেন্স",
+      "টেমপ্লেট ও রিসোর্সে অ্যাক্সেস",
+      "পোর্টফোলিও-প্রস্তুত প্রজেক্ট",
+      "কমিউনিটি সাপোর্ট",
     ],
   },
   {
     id: "backend",
-    name: "Backend Web Development",
-    duration: "3 months",
-    price: 10000,
+    name: "ব্যাকএন্ড ওয়েব ডেভেলপমেন্ট",
+    duration: "৩ মাস",
+    price: "৮,৯৯৯",
     discount: null,
-    payment: ["Full Payment: 10,000 BDT", "Monthly: 3,500 BDT/month"],
+    payment: [
+      "Full Payment: ৮,৯৯৯ টাকা",
+      "Monthly: ২,৯৯৯ টাকা/মাস ৩ মাসের জন্য",
+    ],
     support: [
-      "1:1 mentoring & doubt support via chat/email",
-      "Weekly live sessions & project reviews",
-      "REST APIs, databases & auth guidance",
-      "Sample APIs & project templates",
-      "Real-world backend project guidance",
-      "Deployment guidance (Heroku, Render, Cloud)",
-      "Community support",
+      "১:১ মেন্টরিং এবং চ্যাট/ইমেইল এর মাধ্যমে সন্দেহ সমাধান",
+      "সাপ্তাহিক লাইভ সেশন ও প্রজেক্ট রিভিউ",
+      "REST API, ডেটাবেস এবং অথ গাইডেন্স",
+      "নমুনা API ও প্রজেক্ট টেমপ্লেট",
+      "রিয়েল-ওয়ার্ল্ড ব্যাকএন্ড প্রজেক্ট গাইডেন্স",
+      "ডিপ্লয়মেন্ট গাইডেন্স (Heroku, Render, ক্লাউড)",
+      "কমিউনিটি সাপোর্ট",
     ],
   },
   {
     id: "fullstack",
-    name: "Full-Stack Web Development",
-    duration: "6 months",
-    price: 18000,
-    discount: "2,000 BDT off",
+    name: "ফুল-স্ট্যাক ওয়েব ডেভেলপমেন্ট",
+    duration: "৬ মাস",
+    price: "১৫,৯৯৯ টাকা",
+    discount: "২,০০০ টাকা ছাড়",
     payment: [
-      "Full Payment: 18,000 BDT",
-      "Monthly: 3,500 BDT/month for 6 months",
+      "Full Payment: ১৫,৯৯৯ টাকা",
+      "Monthly: ২,৬৬৬ টাকা/মাস ৬ মাসের জন্য",
     ],
     support: [
-      "Full 1:1 mentoring & doubt support via chat/email",
-      "Weekly live sessions, code reviews & pair programming",
-      "Frontend + backend integration guidance",
-      "Portfolio & capstone project support",
-      "Deployment guidance (Vercel, Heroku, AWS)",
-      "Interview & technical prep guidance",
-      "Access to premium templates & real datasets",
-      "Exclusive student community",
+      "পূর্ণ ১:১ মেন্টরিং এবং চ্যাট/ইমেইল এর মাধ্যমে সন্দেহ সমাধান",
+      "সাপ্তাহিক লাইভ সেশন, কোড রিভিউ এবং পেয়ার প্রোগ্রামিং",
+      "ফ্রন্টএন্ড + ব্যাকএন্ড ইন্টিগ্রেশন গাইডেন্স",
+      "পোর্টফোলিও ও ক্যাপস্টোন প্রজেক্ট সাপোর্ট",
+      "ডিপ্লয়মেন্ট গাইডেন্স (Vercel, Heroku, AWS)",
+      "ইন্টারভিউ ও টেকনিক্যাল প্রস্তুতি গাইডেন্স",
+      "প্রিমিয়াম টেমপ্লেট ও বাস্তব ডেটাসেটে অ্যাক্সেস",
+      "এক্সক্লুসিভ স্টুডেন্ট কমিউনিটি",
     ],
     popular: true,
   },
@@ -91,7 +97,7 @@ function CourseCard({ course }) {
       whileHover={{ scale: 1.03 }}
       className={`pp-card${course.popular ? " pp-card--popular" : ""}`}
     >
-      {course.popular && <div className="pp-popular-badge">Most Popular</div>}
+      {course.popular && <div className="pp-popular-badge">সবচেয়ে জনপ্রিয়</div>}
 
       <h2 className="pp-course-name">{course.name}</h2>
       <p className="pp-duration">Duration: {course.duration}</p>
@@ -123,7 +129,7 @@ export default function PricingPage() {
           animate="visible"
           className="pp-heading"
         >
-          Our Courses & Pricing
+          আমাদের কোর্সের প্রাইসিংসমূহ
         </motion.h1>
 
         <motion.div

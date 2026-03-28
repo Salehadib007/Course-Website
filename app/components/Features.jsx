@@ -7,48 +7,48 @@ import StaggerItem from "./animations/StaggerItem";
 export default function Features() {
   const features = [
     {
-      title: "Beginner Friendly",
-      desc: "No prior computer knowledge required. Start from zero and learn step-by-step.",
+      title: "নতুনদের জন্য উপযোগী",
+      desc: "কোনো পূর্ববর্তী কম্পিউটার জ্ঞান প্রয়োজন নেই। শূন্য থেকে ধাপে ধাপে শেখা শুরু করুন।",
       color: "bg-[#001f2e] text-[#00f0ff]",
     },
     {
-      title: "3 Months Intensive Training",
-      desc: "Step-by-step practical coding from scratch with real-time mentorship.",
+      title: "৩ মাসের ইনটেনসিভ ট্রেনিং",
+      desc: "শুরু থেকে ধাপে ধাপে প্র্যাকটিক্যাল কোডিং, সাথে রিয়েল-টাইম মেন্টরশিপ।",
       color: "bg-[#001a2a] text-[#00f0ff]",
     },
     {
-      title: "Portfolio Projects",
-      desc: "Build real-world applications for your portfolio and resume.",
+      title: "পোর্টফোলিও প্রজেক্ট",
+      desc: "আপনার পোর্টফোলিও ও রিজিউমের জন্য বাস্তবমুখী অ্যাপ্লিকেশন তৈরি করুন।",
       color: "bg-[#001f2e] text-[#00f0ff]",
     },
     {
-      title: "Mentorship Support",
-      desc: "Get guidance from industry experts throughout your learning journey.",
+      title: "মেন্টরশিপ সাপোর্ট",
+      desc: "আপনার শেখার পুরো যাত্রায় ইন্ডাস্ট্রি এক্সপার্টদের গাইডলাইন পান।",
       color: "bg-[#001a2a] text-[#00f0ff]",
     },
     {
-      title: "Career Guidance",
-      desc: "Learn interview prep, resume building, and job-ready skills.",
+      title: "ক্যারিয়ার গাইডেন্স",
+      desc: "ইন্টারভিউ প্রস্তুতি, রিজিউম তৈরি এবং জব-রেডি স্কিল শিখুন।",
       color: "bg-[#001f2e] text-[#00f0ff]",
     },
     {
-      title: "Community Access",
-      desc: "Join a community of learners and collaborate on projects.",
+      title: "কমিউনিটি এক্সেস",
+      desc: "লার্নারদের একটি কমিউনিটিতে যোগ দিন এবং একসাথে প্রজেক্টে কাজ করুন।",
       color: "bg-[#001a2a] text-[#00f0ff]",
     },
     {
-      title: "Certification",
-      desc: "Receive a verified certificate upon course completion.",
+      title: "সার্টিফিকেশন",
+      desc: "কোর্স সম্পন্ন করার পর একটি ভেরিফাইড সার্টিফিকেট পান।",
       color: "bg-[#001f2e] text-[#00f0ff]",
     },
     {
-      title: "AI-Enhanced Learning",
-      desc: "Leverage AI tools to accelerate your learning process.",
+      title: "এআই-ভিত্তিক লার্নিং",
+      desc: "শেখার গতি বাড়াতে এআই টুল ব্যবহার করুন।",
       color: "bg-[#001a2a] text-[#00f0ff]",
     },
     {
-      title: "Flexible Schedule",
-      desc: "Learn at your own pace with 24/7 access to course materials.",
+      title: "ফ্লেক্সিবল সময়সূচি",
+      desc: "নিজের সুবিধামতো সময়ে ২৪/৭ কোর্স মেটেরিয়াল অ্যাক্সেস করে শিখুন।",
       color: "bg-[#001f2e] text-[#00f0ff]",
     },
   ];
@@ -57,11 +57,11 @@ export default function Features() {
     <Section className="grid-bg text-white py-20">
       <div className="text-center mb-12">
         <h2 className="text-4xl sm:text-5xl font-extrabold text-[#00f0ff]">
-          What’s Included In The Course
+          এই কোর্সে যা যা থাকছে
         </h2>
         <p className="mt-4 text-[#66f0ff]/80 max-w-xl mx-auto">
-          Everything you need to go from zero to a professional Full-Stack
-          Developer.
+          পূর্বে কোনো অভিজ্ঞতার প্রয়োজন নেই, শুরু থেকেই গাইডলাইন এর মধ্যে দিয়ে
+          সকলকে এক্সপার্ট ডেভেলপার হিসাবে প্রস্তুত করা হবে।
         </p>
       </div>
 

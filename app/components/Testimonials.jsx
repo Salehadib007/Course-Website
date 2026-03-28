@@ -23,75 +23,74 @@ const testimonials = [
   {
     name: "Rahim",
     handle: "@rahim_dev",
-    text: "This course changed my career. I built my own portfolio and got freelance clients within weeks.",
+    text: "এই কোর্স আমার ক্যারিয়ার পরিবর্তন করেছে। আমি আমার নিজস্ব পোর্টফোলিও তৈরি করেছি এবং ক্লায়েন্টও পেয়েছি।",
     platform: "Twitter",
     stars: 5,
   },
   {
     name: "Ayesha",
     handle: "@ayesha.codes",
-    text: "Clear explanation, real projects, and strong mentorship. Exactly what I was looking for.",
+    text: "স্পষ্ট ব্যাখ্যা, বাস্তব প্রজেক্ট, এবং শক্তিশালী মেন্টরশিপ। ঠিক যেটা আমি খুঁজছিলাম।",
     platform: "Instagram",
     stars: 5,
   },
   {
     name: "Hasan",
     handle: "@hasan_builds",
-    text: "Best investment for learning full-stack development. The curriculum is dense and current.",
+    text: "ফুল-স্ট্যাক ডেভেলপমেন্ট শেখার জন্য সেরা বিনিয়োগ। কারিকুলামটি গভীর এবং আপডেটেড।",
     platform: "LinkedIn",
     stars: 5,
   },
   {
     name: "Samira",
     handle: "@samira_ai",
-    text: "Loved the AI tools section. It helped me automate so many tasks and boosted my workflow 10×.",
+    text: "এআই টুলস সেকশনটি ভালো লেগেছে। এটি আমাকে অনেক কাজ স্বয়ংক্রিয় করতে সাহায্য করেছে এবং আমার কাজের গতি ১০ গুণ বেড়েছে।",
     platform: "Twitter",
     stars: 5,
   },
   {
     name: "Rafi",
     handle: "@rafi.io",
-    text: "Hands-on projects were exactly what I needed to land my first dev job. No fluff, pure value.",
+    text: "হ্যান্ডস-অন প্রজেক্টগুলো ঠিক যেমনটা আমি প্রথম ডেভ জব পাওয়ার জন্য চাইছিলাম। সবার জন্য রিকোমেন্ডেড।",
     platform: "Instagram",
     stars: 5,
   },
   {
     name: "Nabila",
     handle: "@nabila_dev",
-    text: "Mentors are amazing. Always ready to answer questions and push you further than you expect.",
+    text: "মেন্টররা অসাধারণ। সবসময় প্রশ্নের উত্তর দিতে এবং আশা থেকে বেশি এগিয়ে যেতে সাহায্য করে।",
     platform: "LinkedIn",
     stars: 5,
   },
   {
     name: "Omar",
     handle: "@omartech",
-    text: "I feel job-ready now. This course is truly futuristic and AI-friendly — nothing like it out there.",
+    text: "আমি এখন জব-রেডি অনুভব করছি। এই কোর্স সত্যিই ফিউচারিস্টিক এবং এআই-ফ্রেন্ডলি — এরকম আর কিছু নেই।",
     platform: "Twitter",
     stars: 5,
   },
   {
     name: "Fatema",
     handle: "@fatema_codes",
-    text: "Community support is outstanding! I learned as much from peers as from the modules themselves.",
+    text: "কমিউনিটি সাপোর্ট চমৎকার! আমি সহপাঠীদের কাছ থেকেও যতটা শিখেছি, ততটাই মডিউল থেকে শিখেছি।",
     platform: "Instagram",
     stars: 5,
   },
   {
     name: "Imran",
     handle: "@imran.build",
-    text: "Perfect balance of theory and practice. Loved the structured assignments and live feedback sessions.",
+    text: "থিওরি এবং প্র্যাকটিসের সঠিক সমন্বয়। স্ট্রাকচার্ড অ্যাসাইনমেন্ট এবং লাইভ ফিডব্যাক সেশনগুলো খুব ভালো লেগেছে।",
     platform: "LinkedIn",
     stars: 5,
   },
   {
     name: "Sadia",
     handle: "@sadia_learns",
-    text: "The AI-focused modules were a game-changer for my productivity. Worth every single penny.",
+    text: "এআই-ফোকাসড মডিউলগুলো আমার প্রোডাক্টিভিটির জন্য এক গেম-চেঞ্জার ছিল।",
     platform: "Twitter",
     stars: 5,
   },
 ];
-
 const PLATFORM_COLORS = {
   Twitter: "#1d9bf0",
   Instagram: "#e1306c",
@@ -557,7 +556,7 @@ export default function Testimonials() {
                 letterSpacing: "-0.02em",
               }}
             >
-              What Students{" "}
+              শিক্ষার্থীদের{" "}
               <span
                 style={{
                   WebkitBackgroundClip: "text",
@@ -567,7 +566,7 @@ export default function Testimonials() {
                   backgroundClip: "text",
                 }}
               >
-                Say
+                মতামত
               </span>
             </h2>
 
@@ -583,7 +582,8 @@ export default function Testimonials() {
                 letterSpacing: "0.03em",
               }}
             >
-              Real feedback from students who leveled up their careers.
+              শিক্ষার্থীদের আসল প্রতিক্রিয়া যারা তাদের ক্যারিয়ারকে নতুন
+              উচ্চতায় নিয়ে গেছে
             </p>
           </div>
 

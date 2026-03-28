@@ -15,13 +15,13 @@ export default function Footer() {
         {/* LEFT SIDE */}
         <div className="flex flex-col gap-2">
           <p className="font-bold text-xl md:text-2xl text-[#00f0ff]">
-            Full Stack Web Development Course
+            ফুল স্ট্যাক ওয়েব ডেভেলপমেন্ট কোর্স
           </p>
           <p className="text-sm md:text-base text-[#66f0ff]/80">
-            Copyright © {new Date().getFullYear()} Saleh Adib Hasnat
+            কপিরাইট © {new Date().getFullYear()} Saleh Adib Hasnat
           </p>
           <p className="text-sm md:text-base text-[#66f0ff]/80 mt-2 md:mt-0">
-            Designed & Developed by Saleh Adib Hasnat
+            ডিজাইনার এবং ডেভেলপার সালেহ আদিব হাসনাত
           </p>
         </div>
 
@@ -46,7 +46,7 @@ export default function Footer() {
                 target="_blank"
                 className="text-[#00f0ff] hover:text-[#4f00ff] transition-colors"
               >
-                saleh-d-adib.vercel.app
+                ইনস্ট্রাক্টর ওয়েবসাইট
               </a>
             </p>
           </div>

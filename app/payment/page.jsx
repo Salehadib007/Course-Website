@@ -52,7 +52,7 @@ function PaymentPageInner() {
     () => ({
       id: searchParams.get("course") || FALLBACK.id,
       name: searchParams.get("name") || FALLBACK.name,
-      price: Number(searchParams.get("price")) || FALLBACK.price,
+      price: searchParams.get("price") || FALLBACK.price,
       duration: searchParams.get("duration") || FALLBACK.duration,
       badge:
         searchParams.get("course") === "fullstack"
@@ -123,6 +123,7 @@ function PaymentPageInner() {
   );
 
   const priceFormatted = useMemo(() => pkg.price.toLocaleString(), [pkg.price]);
+  console.log(pkg.price);
 
   return (
     <>
@@ -140,10 +141,10 @@ function PaymentPageInner() {
         {/* Header */}
         <div className="pp-header pp-grid-bg ">
           <div className="pp-container">
-            <div className="pp-eyebrow mono pt-15">// ENROLLMENT</div>
-            <h1 className="pp-title">Complete Your Enrollment</h1>
+            <div className="pp-eyebrow mono pt-15">// এনরোলমেন্ট</div>
+            <h1 className="pp-title"> এনরোলমেন্ট সম্পন্ন করুন </h1>
             <p className="pp-subtitle">
-              Secure your spot with a manual payment via bKash or Nagad.
+              বিকাশ কিংবা নগদের সাহায্যে পেমেন্ট সম্পন্ন করুন
             </p>
           </div>
         </div>
@@ -195,12 +196,14 @@ function PaymentPageInner() {
                           <span className="pp-badge">{pkg.badge}</span>
                           <h2 className="pp-pkg-name">{pkg.name}</h2>
                           <p className="pp-pkg-duration">
-                            Duration: {pkg.duration}
+                            সময়সীমা: {pkg.duration}
                           </p>
                         </div>
                         <div className="pp-price-block">
                           <div className="pp-price mono">৳{priceFormatted}</div>
-                          <div className="pp-price-sub">One-time payment</div>
+                          <div className="pp-price-sub">
+                            একবারে পেমেন্ট / মাসিক পেমেন্ট
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -355,15 +358,16 @@ function PaymentPageInner() {
                 <motion.div key="s3" {...scaleIn}>
                   <div className="pp-card pp-card--success">
                     <div className="pp-success-icon">✓</div>
-                    <h2 className="pp-success-title">Enrollment Submitted!</h2>
+                    <h2 className="pp-success-title">
+                      এনরোলমেন্ট সম্পন্ন হয়েছে!
+                    </h2>
                     <p className="pp-success-body">
-                      Your payment for <strong>{pkg.name}</strong> has been
-                      submitted. We'll verify and confirm within 24 hours via
-                      email.
+                      আপনার <strong>{pkg.name}</strong> এর পেমেন্ট সম্পন্ন
+                      হয়েছে। ২৪ ঘন্টার মধ্যে আপনার ভেরিফিকেশন সম্পন্ন হবে।
                     </p>
                     <div className="pp-success-email-box">
                       <div className="pp-success-email-label">
-                        Submitted Email
+                        ইমেইলে সম্পন্ন হয়েছে
                       </div>
                       <div className="pp-success-email mono">
                         {formData.email}

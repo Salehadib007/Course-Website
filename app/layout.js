@@ -1,35 +1,21 @@
-"use client";
-
-import { AnimatePresence, motion } from "framer-motion";
-import { usePathname } from "next/navigation";
+import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import "./globals.css";
+import PageTransition from "./components/PageTransition";
+
+export const metadata = {
+  title: "DEVION",
+  description:
+    "Complete Courses for frontend, backend, and full-stack development",
+};
 
 export default function RootLayout({ children }) {
-  const pathname = usePathname();
-
   return (
-    <html lang="en" suppressHydrationWarning="true">
-      <title>WebDev 1.0</title>
-      <meta
-        name="description"
-        content="Complete Courses for frontend, backend, and full-stack development"
-      />
+    <html lang="en">
       <body>
         <Navbar />
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={pathname}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.4 }}
-          >
-            {children}
-          </motion.div>
-        </AnimatePresence>
+        <PageTransition>{children}</PageTransition>
 
         <Footer />
       </body>

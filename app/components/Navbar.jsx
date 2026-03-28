@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -18,10 +19,10 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Course", path: "/course" },
-    { name: "Pricing", path: "/pricing" },
-    { name: "Instructor", path: "/instructor" },
+    { name: "হোম", path: "/" },
+    { name: "কোর্সসমূহ", path: "/course" },
+    { name: "প্রাইসিং", path: "/pricing" },
+    { name: "ইন্সট্রাক্টর", path: "/instructor" },
   ];
 
   return (
@@ -39,7 +40,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="text-2xl font-extrabold tracking-wide">
           <span className="bg-gradient-to-r from-[#00f0ff] via-[#00d4ff] to-[#00b8ff] bg-clip-text text-transparent">
-            WebDev 1.0
+            <Image src="/weblogo.png" height={120} width={120} alt="logo" />
           </span>
         </Link>
 
@@ -115,7 +116,7 @@ export default function Navbar() {
 
             <Link href="/payment" onClick={() => setOpen(false)}>
               <button className="bg-[#00f0ff] w-full text-[#0a0a0a] font-semibold px-6 py-2 rounded-full shadow-md hover:shadow-xl transition-all duration-300 mt-2">
-                Enroll Now
+                এনরোল করুন
               </button>
             </Link>
           </motion.div>
