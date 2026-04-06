@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 
 // ── CONFIG ──────────────────────────────────────────────────────────────────
-const TARGET_DATE = new Date("2026-03-30T23:59:00"); // ← change this
+const TARGET_DATE = new Date("2026-04-10T23:59:00"); // ← change this
 const EVENT_LABEL = "কোর্স শুরু হবে"; // ← change this
 // ────────────────────────────────────────────────────────────────────────────
 
