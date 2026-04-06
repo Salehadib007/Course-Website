@@ -159,12 +159,12 @@ export default function Hero() {
           custom={5}
           className="flex justify-center relative"
         >
-          <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl aspect-square rounded-xl overflow-hidden shadow-2xl ring-2 ring-[#00f0ff]/50 hover:scale-105 transition-transform duration-500">
+          <div className="relative bg-[#215A3E] w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl aspect-square rounded-xl overflow-hidden shadow-2xl ring-2 ring-[#00f0ff]/50 hover:scale-105 transition-transform duration-500">
             <Image
-              src="/course.png"
+              src="/poster.png"
               alt="Full Stack AI Development"
               fill
-              className="rounded-xl object-cover"
+              className="rounded-xl object-contain"
               priority
             />
           </div>
